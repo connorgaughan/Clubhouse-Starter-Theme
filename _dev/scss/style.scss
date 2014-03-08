@@ -1,0 +1,29 @@
+//-------------------------------------------------------------------------------------------------  Import Statements
+@import "compass/typography/vertical_rhythm";
+@import "compass/css3";
+@import "compass/utilities";
+@import "libs/reset";
+@import "libs/settings";
+@import "libs/mixins";
+@import "libs/grid";
+@import "libs/typography"; 	
+@import "libs/forms";	
+
+//-------------------------------------------------------------------------------------------------  General Styles
+body {width: 100%; @extend .clearfix;}
+.container {@extend .clearfix; margin: 0 auto; max-width: 1200px; padding:0 20px;}
+
+//-------------------------------------------------------------------------------------------------  Extends
+.is-uppercase {text-transform:uppercase; letter-spacing:1px;}
+.is-inline{@include inline-block();}
+.is-centered{text-align:center;}
+.clearfix{@include clearfix();}
+
+//-------------------------------------------------------------------------------------------------  Layout
+
+
+//-------------------------------------------------------------------------------------------------  Print styles
+@media print {body {font-size: percentage(10 / 16);@include adjust-leading-to(2);}}
+
+//-------------------------------------------------------------------------------------------------  IOS specifics 
+@media screen and (max-width: 769px) {-webkit-text-size-adjust:none;}
