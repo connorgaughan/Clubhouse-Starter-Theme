@@ -13,11 +13,29 @@
 
 	// add google analytics to footer
 	function add_google_analytics() {
-		echo '<script src="http://www.google-analytics.com/ga.js" type="text/javascript"></script>';
-		echo '<script type="text/javascript">';
-		echo 'var pageTracker = _gat._getTracker("UA-XXXXX-X");';
-		echo 'pageTracker._trackPageview();';
-		echo '</script>';
+		if (! is_user_logged_in() ){
+			echo '
+				<script src="http://www.google-analytics.com/ga.js" type="text/javascript"></script>
+				
+				<script type="text/javascript">
+					var pageTracker = _gat._getTracker("UA-XXXXXXXX-X");
+					pageTracker._trackPageview();
+				</script>
+
+				<script type="text/javascript">
+					function removeEvents() {
+						document.body.removeEventListener("click", sendInteractionEvent);
+						window.removeEventListener("scroll", sendInteractionEvent);
+					}
+					function sendInteractionEvent() {
+						_gaq.push(["_trackEvent", "send", "event", "Page Interaction"]);
+						removeEvents();
+					}
+					document.body.addEventListener("click", sendInteractionEvent);
+					window.addEventListener("scroll", sendInteractionEvent);
+				</script>
+			';
+		}
 	}
 	add_action('wp_footer', 'add_google_analytics');
 
