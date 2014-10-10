@@ -2,14 +2,24 @@
 @import "compass/css3";
 @import "compass/utilities";
 
-//-------------------------------------------------------------------------------------------------  Display Inline-Block with IE fix
+//------------------------------------------------------------------------------
+//	Display Inline-Block with IE fix
+//------------------------------------------------------------------------------
+
 @mixin inline-block {
 	display:inline-block;
 	zoom:1;
 	*display:inline;
 }
 
-//-------------------------------------------------------------------------------------------------  The micro clearfix - http://nicolasgallagher.com/micro-clearfix-hack/
+
+
+
+
+//------------------------------------------------------------------------------
+//	The micro clearfix - http://nicolasgallagher.com/micro-clearfix-hack/
+//------------------------------------------------------------------------------
+
 @mixin clearfix() {
 	*zoom:1;
 
