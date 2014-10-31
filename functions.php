@@ -87,5 +87,5 @@
 		
 		wp_enqueue_script( 'site', get_template_directory_uri().'/_assets/js/site.min.js', array( 'jquery' ), '', true );
 
-		wp_enqueue_style( 'screen', get_stylesheet_directory_uri().'/_assets/css/style.css', '', '', 'screen' );
+		wp_enqueue_style( 'screen', get_stylesheet_directory_uri().'/_assets/css/style.min.css', '', '', 'screen' );
 	}	
