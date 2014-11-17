@@ -85,7 +85,7 @@
 
 		wp_enqueue_script( 'jquery', '//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js','', '', true );
 		
-		wp_enqueue_script( 'site', get_template_directory_uri().'/_assets/js/site.min.js', array( 'jquery' ), '', true );
+		wp_enqueue_script( 'site', get_template_directory_uri().'/_libs/js/site.min.js', array( 'jquery' ), '', true );
 
-		wp_enqueue_style( 'screen', get_stylesheet_directory_uri().'/_assets/css/style.min.css', '', '', 'screen' );
+		wp_enqueue_style( 'screen', get_stylesheet_directory_uri().'/_libs/css/style.min.css', '', '', 'screen' );
 	}	

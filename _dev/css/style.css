@@ -143,6 +143,3 @@ body {
     line-height: 0.75em;
   }
 }
-@media screen and (max-width: 769px) {
-  -webkit-text-size-adjust: none;
-}
