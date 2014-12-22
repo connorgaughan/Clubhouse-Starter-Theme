@@ -17,7 +17,7 @@ module.exports = function(grunt) {
       },
       dist: {
         src: ['_dev/js/*.js'],
-        dest: '_tmp/js/site.js'
+        dest: '_dev/_tmp/js/site.js'
       }
     },
 
@@ -26,7 +26,7 @@ module.exports = function(grunt) {
     uglify: {
       my_target: {
         files: {
-          '_libs/js/site.min.js': ['_tmp/js/site.js']
+          '_libs/js/site.min.js': ['_dev/_tmp/js/site.js']
         }
       }
     },
@@ -54,7 +54,7 @@ module.exports = function(grunt) {
         expand: true,
         cwd: '_dev/css/',
         src: ['*.css'],
-        dest: '_tmp/css/'
+        dest: '_dev/_tmp/css/'
       }
     },
 
@@ -64,7 +64,7 @@ module.exports = function(grunt) {
       my_target: {
         files: [{
           expand: true,
-          cwd: '_tmp/css/',
+          cwd: '_dev/css/',
           src: ['*.css', '!*.min.css'],
           dest: '_libs/css/',
           ext: '.min.css'
@@ -80,7 +80,7 @@ module.exports = function(grunt) {
           expand: true,
           cwd: '_dev/images',
           src: ['**/*.{png,jpg,gif,svg}'],
-          dest: '_assets/images'
+          dest: '_libs/images'
         }]
       }
     },
@@ -95,10 +95,6 @@ module.exports = function(grunt) {
       styles: {
         files: ['_dev/scss/*.scss', '_dev/scss/libs/*.scss'],
         tasks: ['compass'],
-      },
-      cmq: {
-        files: ['_dev/tmp/*.css'],
-        tasks: ['cmq'],
       },
       img: {
         files: ['_dev/images/**/*.{png,jpg,gif,svg}'],

@@ -1,73 +1,20 @@
-//------------------------------------------------------------------------------
-//	Import Statements
-//------------------------------------------------------------------------------
-
+// Let's get Compass setUp
 @import "compass/typography/vertical_rhythm";
 @import "compass/css3";
 @import "compass/utilities";
-@import "libs/reset";
-@import "libs/settings";
-@import "libs/mixins";
-@import "libs/grid";
-@import "libs/typography"; 	
-//@import "libs/forms";	
 
+// Let's grab some resets
+@import "libs/resets/global";
+@import "libs/resets/forms";
 
+// Now let's get our settings
+@import "libs/settings/global";
+@import "libs/settings/typography";
 
+// Here we are getting content layout partials
+@import "libs/layouts/grid";
+@import "libs/layouts/global";
 
-
-//------------------------------------------------------------------------------
-//	Global Styles
-//------------------------------------------------------------------------------
-
-body {
-	@extend .clearfix;
-	width: 100%; 
-}
-
-.container {
-	@extend .clearfix; 
-	max-width: 1200px;
-	margin: 0 auto;  
-	padding:0 20px;
-}
-
-
-
-
-
-//------------------------------------------------------------------------------
-//	Extends
-//------------------------------------------------------------------------------
-
-.is-uppercase {	text-transform:uppercase; }
-.is-inline{		@include inline-block(); }
-.is-centered{	text-align:center; }
-.clearfix{		@include clearfix(); }
-
-
-
-
-
-//------------------------------------------------------------------------------
-//	Layout
-//------------------------------------------------------------------------------
-
-// Start layout styles here
-
-
-
-
-//------------------------------------------------------------------------------
-//	Print styles
-//------------------------------------------------------------------------------
-
-@media print {
-	body {
-		font-size: percentage(10 / 16);
-		@include adjust-leading-to(2);
-	}
-}
-
-
+// You can add as many partials as you'd like here with additional imports
+@import "libs/addOns/mixins";
 
