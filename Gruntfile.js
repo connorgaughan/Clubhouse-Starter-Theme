@@ -6,6 +6,7 @@ module.exports = function(grunt) {
 
     // Lets lint our JS before we concatinate it
     jshint: {
+      // This will take all our JS files and lint them
       beforeconcat: ['_dev/js/*.js'],
     },
 
@@ -16,6 +17,7 @@ module.exports = function(grunt) {
         separator: ';'
       },
       dist: {
+        // Grab all JS files from the dev directory and store the concatenated files in the tmp directory as one file
         src: ['_dev/js/*.js'],
         dest: '_dev/_tmp/js/site.js'
       }
@@ -26,6 +28,7 @@ module.exports = function(grunt) {
     uglify: {
       my_target: {
         files: {
+          // Grab the concatenated JS file and minify it; output the final minified file in the libs directory
           '_libs/js/site.min.js': ['_dev/_tmp/js/site.js']
         }
       }
@@ -36,12 +39,24 @@ module.exports = function(grunt) {
     compass: {
       dist: {
         options: {
+          // Take all SCSS and compile it, leave it expanded and place it in the dev/css directory
           environment: 'production',
           outputStyle: 'expanded',
           imagesDir: '../images',
           fontsDir: '../fonts',
           sassDir: '_dev/scss',
           cssDir: '_dev/css/',
+          raw: 'preferred_syntax = :scss\n' // Use `raw` since it's not directly available
+        }
+      },
+      dev: {
+        options: {
+          environment: 'production',
+          outputStyle: 'compressed',
+          imagesDir: '../images',
+          fontsDir: '../fonts',
+          sassDir: '_dev/scss',
+          cssDir: '_libs/css/',
           raw: 'preferred_syntax = :scss\n' // Use `raw` since it's not directly available
         }
       }
@@ -51,10 +66,11 @@ module.exports = function(grunt) {
     // Let's combine some media queries to cut down on bloat
     cmq: {
       dynamic: {
+        // Grab the expanded CSS and combine all Media Queries and place it in the tmp directory
         expand: true,
-        cwd: '_dev/css/',
+        cwd: '_libs/css/',
         src: ['*.css'],
-        dest: '_dev/_tmp/css/'
+        dest: '_libs/css/',
       }
     },
 
@@ -63,8 +79,9 @@ module.exports = function(grunt) {
     cssmin: {
       my_target: {
         files: [{
+          // Grab the combined CSS from the tmp directory, minify it, and send it to the libs directory for production
           expand: true,
-          cwd: '_dev/css/',
+          cwd: '_libs/css/',
           src: ['*.css', '!*.min.css'],
           dest: '_libs/css/',
           ext: '.min.css'
@@ -77,6 +94,7 @@ module.exports = function(grunt) {
     imagemin: {
       dynamic: {
         files: [{
+          // Grab ALL images in the dev/images directory and run them through imageMin; output the files in the libs directory
           expand: true,
           cwd: '_dev/images',
           src: ['**/*.{png,jpg,gif,svg}'],
@@ -93,29 +111,18 @@ module.exports = function(grunt) {
         tasks: ['concat', 'uglify'],
       },
       styles: {
-        files: ['_dev/scss/*.scss', '_dev/scss/libs/*.scss'],
-        tasks: ['compass'],
+        files: ['_dev/scss/*.scss', '_dev/scss/**/*.scss'],
+        tasks: ['compass:dev'],
       },
       img: {
         files: ['_dev/images/**/*.{png,jpg,gif,svg}'],
         tasks: ['newer:imagemin'],
-      },
-      cssmin: {
-        files: ['_dev/css/*.css'],
-        tasks: ['cssmin'],
       }
     },
   });
 
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-compass');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-imagemin');
-  grunt.loadNpmTasks('grunt-newer');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.loadNpmTasks('grunt-combine-media-queries');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
+  // Load all tasks using load-grunt-tasks
+  require('load-grunt-tasks')(grunt);
 
-  grunt.registerTask('default', ['jshint', 'concat', 'compass', 'cmq', 'uglify', 'newer:imagemin', 'cssmin']);
+  grunt.registerTask('mq', ['cmq', 'cssmin']);
 };
