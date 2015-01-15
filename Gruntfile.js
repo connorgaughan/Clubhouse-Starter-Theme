@@ -3,116 +3,120 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
+    // ==================================================================
+    // Build out our JS task
+    // ==================================================================
 
-    // Lets lint our JS before we concatinate it
     jshint: {
-      // This will take all our JS files and lint them
-      beforeconcat: ['_dev/js/*.js'],
+      beforeconcat: '_dev/js/*.js',
     },
 
-
-    // This will compile all scripts in the JS directory into one file
     concat: {
       options: {
         separator: ';'
       },
       dist: {
-        // Grab all JS files from the dev directory and store the concatenated files in the tmp directory as one file
-        src: ['_dev/js/*.js'],
-        dest: '_dev/_tmp/js/site.js'
+        src:  '_dev/js/*.js',
+        dest: '_tmp/js/site.js'
       }
     },
 
-
-    // Minify all scripts
     uglify: {
       my_target: {
         files: {
-          // Grab the concatenated JS file and minify it; output the final minified file in the libs directory
-          '_libs/js/site.min.js': ['_dev/_tmp/js/site.js']
+          '_assets/js/site.min.js': ['_tmp/js/site.js']
         }
       }
     },
 
 
-    // This will compile all SCSS and minify it to a single CSS file
+    // ==================================================================
+    // Build out our CSS tasks
+    // ==================================================================
     compass: {
-      dist: {
+      dev: {
         options: {
-          // Take all SCSS and compile it, leave it expanded and place it in the dev/css directory
-          environment: 'production',
+          environment: 'development',
           outputStyle: 'expanded',
           imagesDir: '../images',
-          fontsDir: '../fonts',
           sassDir: '_dev/scss',
-          cssDir: '_dev/css/',
-          raw: 'preferred_syntax = :scss\n' // Use `raw` since it's not directly available
+          cssDir: '_tmp/css/',
+          raw: 'preferred_syntax = :scss\n'
         }
       },
-      dev: {
+      build: {
         options: {
           environment: 'production',
           outputStyle: 'compressed',
           imagesDir: '../images',
-          fontsDir: '../fonts',
           sassDir: '_dev/scss',
-          cssDir: '_libs/css/',
-          raw: 'preferred_syntax = :scss\n' // Use `raw` since it's not directly available
+          cssDir: '_assets/css/',
+          raw: 'preferred_syntax = :scss\n'
         }
       }
     },
 
-
-    // Let's combine some media queries to cut down on bloat
     cmq: {
       dynamic: {
-        // Grab the expanded CSS and combine all Media Queries and place it in the tmp directory
         expand: true,
-        cwd: '_libs/css/',
+        cwd: '_assets/css/',
         src: ['*.css'],
-        dest: '_libs/css/',
+        dest: '_assets/css/',
       }
     },
 
-
-    // Minify the prefixed version of my CSS and put in _assets directory for production
     cssmin: {
-      my_target: {
+      dev: {
         files: [{
-          // Grab the combined CSS from the tmp directory, minify it, and send it to the libs directory for production
           expand: true,
-          cwd: '_libs/css/',
+          cwd: '_tmp/css/',
           src: ['*.css', '!*.min.css'],
-          dest: '_libs/css/',
+          dest: '_assets/css/',
+          ext: '.min.css'
+        }]
+      },
+      build: {
+        files: [{
+          expand: true,
+          cwd: '_assets/css/',
+          src: ['*.css', '!*.min.css'],
+          dest: '_assets/css/',
           ext: '.min.css'
         }]
       }
     },
 
 
-    // Image Optimization
+
+    // ==================================================================
+    // Build out our image tasks
+    // ==================================================================
     imagemin: {
       dynamic: {
         files: [{
-          // Grab ALL images in the dev/images directory and run them through imageMin; output the files in the libs directory
+          // Grab ALL images in the dev/images directory and run them through imageMin; output the files in the assets directory
           expand: true,
           cwd: '_dev/images',
           src: ['**/*.{png,jpg,gif,svg}'],
-          dest: '_libs/images'
+          dest: '_assets/images'
         }]
       }
     },
 
 
-    // Watches files and runs appropriate tasks upon changes
+    
+
+    // ==================================================================
+    // Build out our Watch tasks
+    // ==================================================================
     watch: {
       scripts: {
         files: ['_dev/js/*.js'],
-        tasks: ['concat', 'uglify'],
+        tasks: ['jshint', 'concat', 'uglify'],
       },
       styles: {
         files: ['_dev/scss/*.scss', '_dev/scss/**/*.scss'],
-        tasks: ['compass:dev'],
+        tasks: ['compass:dev', 'cssmin:dev'],
       },
       img: {
         files: ['_dev/images/**/*.{png,jpg,gif,svg}'],
@@ -123,6 +127,6 @@ module.exports = function(grunt) {
 
   // Load all tasks using load-grunt-tasks
   require('load-grunt-tasks')(grunt);
-
-  grunt.registerTask('mq', ['cmq', 'cssmin']);
+  grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'compass:dev', 'cssmin:dev', 'newer:imagemin']);
+  grunt.registerTask('build', ['jshint', 'concat', 'uglify', 'compass:build', 'cmq', 'cssmin:build', 'newer:imagemin']);
 };
