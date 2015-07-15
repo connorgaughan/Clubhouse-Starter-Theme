@@ -1,20 +1,35 @@
-// Let's get Compass setUp
+// -----------------------------------------------------------------------------
+// Basic Document Set Up
+// -----------------------------------------------------------------------------
+
+// Compass Dependancies
 @import "compass/typography/vertical_rhythm";
 @import "compass/css3";
 @import "compass/utilities";
 
-// Let's grab some resets
+// Libraries
 @import "libs/resets/global";
 @import "libs/resets/forms";
+@import "libs/mixins";
+@import "libs/grid";
 
-// Now let's get our settings
-@import "libs/settings/global";
-@import "libs/settings/typography";
 
-// Here we are getting content layout partials
-@import "libs/layouts/grid";
-@import "libs/layouts/global";
-@import "libs/layouts/modules";
 
-// You can add as many partials as you'd like here with additional imports
-@import "libs/addOns/mixins";
+// -----------------------------------------------------------------------------
+// OOCSS Set Up
+// -----------------------------------------------------------------------------
+
+// Styles
+@import "libs/styles/colors";
+@import "libs/styles/fonts";
+@import "libs/styles/typography";
+@import "libs/styles/global";
+
+// Elements
+@import "libs/elements";
+
+// Components
+@import "libs/components";
+
+// Templates
+@import "libs/templates";

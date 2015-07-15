@@ -17,14 +17,14 @@ module.exports = function(grunt) {
       },
       dist: {
         src:  '_dev/js/*.js',
-        dest: '_tmp/js/site.js'
+        dest: '_assets/js/site.min.js'
       }
     },
 
     uglify: {
       my_target: {
         files: {
-          '_assets/js/site.min.js': ['_tmp/js/site.js']
+          '_assets/js/site.min.js': ['_assets/js/site.min.js']
         }
       }
     },
@@ -34,23 +34,14 @@ module.exports = function(grunt) {
     // Build out our CSS tasks
     // ==================================================================
     compass: {
-      dev: {
-        options: {
-          environment: 'development',
-          outputStyle: 'expanded',
-          imagesDir: '../images',
-          sassDir: '_dev/scss',
-          cssDir: '_tmp/css/',
-          raw: 'preferred_syntax = :scss\n'
-        }
-      },
       build: {
         options: {
           environment: 'production',
           outputStyle: 'compressed',
           imagesDir: '../images',
+          fontsDir: '../../fonts',
           sassDir: '_dev/scss',
-          cssDir: '_assets/css/',
+          cssDir: '_dev/css/',
           raw: 'preferred_syntax = :scss\n'
         }
       }
@@ -59,26 +50,17 @@ module.exports = function(grunt) {
     cmq: {
       dynamic: {
         expand: true,
-        cwd: '_assets/css/',
+        cwd: '_dev/css/',
         src: ['*.css'],
-        dest: '_assets/css/',
+        dest: '_dev/css/',
       }
     },
 
     cssmin: {
-      dev: {
-        files: [{
-          expand: true,
-          cwd: '_tmp/css/',
-          src: ['*.css', '!*.min.css'],
-          dest: '_assets/css/',
-          ext: '.min.css'
-        }]
-      },
       build: {
         files: [{
           expand: true,
-          cwd: '_assets/css/',
+          cwd: '_dev/css/',
           src: ['*.css', '!*.min.css'],
           dest: '_assets/css/',
           ext: '.min.css'
@@ -116,7 +98,7 @@ module.exports = function(grunt) {
       },
       styles: {
         files: ['_dev/scss/*.scss', '_dev/scss/**/*.scss'],
-        tasks: ['compass:dev', 'cssmin:dev'],
+        tasks: ['compass', 'cmq', 'cssmin'],
       },
       img: {
         files: ['_dev/images/**/*.{png,jpg,gif,svg}'],
@@ -127,6 +109,5 @@ module.exports = function(grunt) {
 
   // Load all tasks using load-grunt-tasks
   require('load-grunt-tasks')(grunt);
-  grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'compass:dev', 'cssmin:dev', 'newer:imagemin']);
-  grunt.registerTask('build', ['jshint', 'concat', 'uglify', 'compass:build', 'cmq', 'cssmin:build', 'newer:imagemin']);
+  grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'compass', 'cssmin', 'newer:imagemin']);
 };
