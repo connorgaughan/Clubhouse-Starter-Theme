@@ -1,0 +1,21 @@
+.content{
+	max-width:1200px;
+	margin:0 auto;
+	@include rem(padding, 2rem);
+	@extend .clearfix;
+}
+
+.main{
+	@include column(12);
+	background: $highlight;
+	@media screen and (min-width:48em){
+		@include column(8);
+	}
+}
+
+.right{
+	@include column(12);
+	@media screen and (min-width:48em){
+		@include column(4);
+	}
+}

@@ -2,8 +2,11 @@
 //	Global Styles
 //------------------------------------------------------------------------------
 
+html{
+	font-size: 62.5%;
+}
+
 body {
 	@extend .clearfix;
 	width: 100%;
-	background:$white;
 }

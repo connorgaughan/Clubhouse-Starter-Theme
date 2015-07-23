@@ -1,0 +1,74 @@
+//------------------------------------------------------------------------------
+//	Display Inline-Block with IE fix
+//------------------------------------------------------------------------------
+
+.inline-block {
+	display:inline-block;
+	zoom:1;
+	*display:inline;
+}
+
+
+
+
+
+//------------------------------------------------------------------------------
+// The micro clearfix - http://nicolasgallagher.com/micro-clearfix-hack/
+//------------------------------------------------------------------------------
+
+.clearfix{
+	*zoom:1;
+
+	&:before,
+	&:after {
+	    content:"";
+	    display:table;
+	}
+	&:after {
+	    clear:both;
+	}
+}
+
+
+//------------------------------------------------------------------------------
+// rem/px
+//------------------------------------------------------------------------------
+
+@function parseInt($n) { 
+  @return $n / ($n * 0 + 1);
+}
+
+@mixin rem($property, $values) {
+  $px : (); 
+  $rem: (); 
+
+  @each $value in $values { 
+
+    @if $value == 0 or $value == auto { 
+      $px : append($px , $value);
+      $rem: append($rem, $value);
+    }
+
+    @else {
+      $unit: unit($value);    
+      $val: parseInt($value); 
+
+      @if $unit == "px" {  
+        $px : append($px,  $value);
+        $rem: append($rem, ($val / 10 + rem));
+      }
+
+      @if $unit == "rem" { 
+        $px : append($px,  ($val * 10 + px));
+        $rem: append($rem, $value);
+      }
+    }
+  }
+
+  @if $px == $rem {     
+    #{$property}: $px;  
+  } @else {
+    #{$property}: $px;  
+    #{$property}: $rem; 
+  }
+}

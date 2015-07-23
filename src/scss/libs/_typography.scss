@@ -1,0 +1,32 @@
+//------------------------------------------------------------------------------
+//	Base Typography
+//------------------------------------------------------------------------------
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:700,400,300);
+
+body{
+	font-family: 'Open Sans', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	@include rem(font-size, 1.6rem);
+	color:$secondary;
+}
+
+
+//------------------------------------------------------------------------------
+//	Headlines
+//------------------------------------------------------------------------------
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+	font-weight:bold;
+	color: $heading-color;
+}
+
+
+h4{
+	@include rem(font-size, 2.4rem);
+	@include rem(padding, 0 0 1.2rem 0);
+}

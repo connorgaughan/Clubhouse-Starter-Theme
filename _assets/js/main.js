@@ -6,5 +6,5 @@ document.documentElement.className = document.documentElement.className.replace(
 
 // Another Comment
 $(document).ready({
-
+	
 });
